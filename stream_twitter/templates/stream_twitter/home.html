@@ -24,7 +24,7 @@
   {% if not request.user.is_authenticated %}
     <div class="row signup">
       <p>
-        <a href="/accounts/github/login/?process=login" role="button" class="btn btn-primary btn-lg"><i class="icon icon-github"></i> Sign in with GitHub</a>
+        <a href="/accounts/vk/login/?process=login" role="button" class="btn btn-primary btn-lg"><i class="fa fa-vk"></i> Войти через ВКонтакте</a>
       </p>
     </div>
   {% endif %}
@@ -51,5 +51,5 @@
 $('div.home-users').hide().each(function(index) {
   $(this).delay(250 * index).fadeIn(1600);
 });
-</script> 
+</script>
 {% endblock script %}

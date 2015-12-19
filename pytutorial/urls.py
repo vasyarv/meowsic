@@ -9,6 +9,7 @@ from django.conf import settings
 urlpatterns = patterns('',
   url(r'^accounts/', include('allauth.urls')),
   url(r'^admin/', include(admin.site.urls)),
+  url(r'^login_admin/',  views.login_admin, name='login_admin'),
   url(r'^discover/', login_required(views.discover)),
   url(r'^timeline/',
      login_required(views.TimelineView.as_view())),

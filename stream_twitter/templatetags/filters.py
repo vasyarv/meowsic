@@ -16,8 +16,8 @@ def time_difference(value):
         return value
 
     if difference <= timedelta(minutes=1):
-        return 'Just now'
-    return '%(time)s ago' % {'time': timesince(value).split(', ')[0]}
+        return 'Только что'
+    return '%(time)s назад' % {'time': timesince(value).split(', ')[0]}
 
 @register.filter(name='parse_tweet_text')
 def parse_tweet_text(tweet_object, autoescape=False):
