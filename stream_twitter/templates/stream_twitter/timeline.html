@@ -1,8 +1,27 @@
 {% extends 'stream_twitter/_base.html' %}
 {% load activity_tags %}
 
+{% block style %}
+<link rel="stylesheet" href="/static/css/mediaelementplayer.css" type="text/css">
+<style>
+.artist-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60ch;
+}
+.artist-text strong{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 20ch;
+}
+</style>
+{% endblock style %}
+
 
 {% block content %}
+
 <div class="container">
 <div class="row">
   <div class="col-md-3">
@@ -15,108 +34,7 @@
           {% include 'stream_twitter/_tweetbox.html' %}
         </div>
         <div class="col-xs-12">
-          <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 
-          <div id="jp_container_1" class="jp-audio">
-    <div class="jp-type-playlist">
-        <div class="jp-gui jp-interface">
-            <ul class="jp-controls">
-                <li>
-                    <!--
-                        Данный элемент отсутствует в документации.
-                        Его предназначение: отображение названия играющей
-                        композиции
-                        -->
-                    <label id="name-music-that-plays"></label>
-                </li>
-                <!-- translate.google.com :[ -->
-                <li>
-                    <a href="javascript:;" class="jp-play" tabindex="1">play</a>
-                </li>
-                <li>
-                    <a href="javascript:;" class="jp-pause" tabindex="1">pause</a>
-                </li>
-                <li>
-                    <a href="javascript:;" class="jp-previous" tabindex="1">previous</a>
-                </li>
-                <li>
-                    <a href="javascript:;" class="jp-next" tabindex="1">next</a>
-                </li>
-            </ul>
-            <!-- Прогресс бар -->
-            <div class="jp-progress">
-                <div class="jp-seek-bar">
-                    <div class="jp-play-bar"></div>
-                </div>
-            </div>
-            <!-- Регулятор громкости -->
-            <div class="jp-volume-bar">
-                <div class="jp-volume-bar-value"></div>
-            </div>
-            <!-- Остаток времени -->
-            <div class="jp-time-holder">
-                <div class="jp-current-time"></div>
-            </div>
-
-            <div class="clear"></div>
-
-            <!-- Кнопки повторения и перемешивания плейлиста -->
-            <ul class="jp-toggles">
-                <li>
-                    <a
-                        href="javascript:;"
-                        class="jp-shuffle"
-                        tabindex="1"
-                        title="shuffle">
-                        shuffle
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="javascript:;"
-                        class="jp-shuffle-off"
-                        tabindex="1"
-                        title="shuffle off">
-                        shuffle off
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="javascript:;"
-                        class="jp-repeat"
-                        tabindex="1"
-                        title="repeat">
-                        repeat
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="javascript:;"
-                        class="jp-repeat-off"
-                        tabindex="1"
-                        title="repeat off">
-                        repeat off
-                    </a>
-                </li>
-            </ul>
-            <div class="clear"></div>
-        </div>
-        <!-- Будущий плейлист -->
-        <div class="jp-playlist">
-            <ul>
-                <li></li>
-            </ul>
-        </div>
-        <!-- Сообщение об ошибке -->
-        <div class="jp-no-solution">
-            <span>Ой...</span>
-            Просим прощения, но вы зашли в интернет с камня. Скачайте
-            <a href="http://get.adobe.com/flashplayer/" target="_blank">
-                Flash plugin
-            </a>.
-        </div>
-    </div>
-</div>
           {% for activity in activities %}
             {% render_activity activity %}
           {% endfor %}
@@ -133,6 +51,52 @@
 {% endblock content %}
 
 
+{% block modals %}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Мои аудиозаписи</h4>
+      </div>
+      <div class="modal-body" style="max-height: calc(100vh - 210px);overflow-y: auto;">
+        {% for track in audio %}
+        <div class="artist-text"><strong>{{track.artist}}</strong> {{track.title}}</div>
+        <audio class="vkaudio" preload="none" src="{{track.url}}" controls></audio><br>
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock modals %}
+
+
 {% block script %}
 <script src="/static/js/audio/temp.js"></script>
+<script src="/static/js/audioplayer.js"></script>
+<script src="/static/js/audio.min.js"></script>
+<script src="/static/js/mediaelement-and-player.min.js"></script>
+<script>
+
+$(document).ready(function() {
+  //  $('audio,video').mediaelementplayer();
+});
+
+/*
+audiojs.events.ready(function() {
+    var as = audiojs.createAll();
+  });
+
+var aa;
+$("audio").on("ended", function(){
+    console.log("ENDED!!");
+    aa = $(this);
+    var audio = $(this).next().next().next().next()[0];
+    audio.play();
+
+});*/
+</script>
 {% endblock script %}

@@ -13,7 +13,8 @@
 
       <!--<link rel="stylesheet" href="/static/css/audio/jplayer.blue.monday.min.css" type="text/css">-->
       <link rel="stylesheet" href="/static/css/audio/vkontakte.css" type="text/css">
-
+      {% block style %}
+      {% endblock style %}
   </head>
 <body>
     {% block nav %}
@@ -21,6 +22,11 @@
     {% endblock nav %}
     {% block content %}
     {% endblock content %}
+
+    {% block modals %}
+    {% endblock modals %}
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
 

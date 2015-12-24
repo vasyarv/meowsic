@@ -11,9 +11,20 @@ from stream_twitter.models import Follow
 from stream_twitter.models import Tweet, Hashtag
 from pytutorial import settings
 
+import requests
+from allauth.socialaccount.models import SocialAccount, SocialToken
 
 enricher = Enrich()
 
+def getUserMusic(uid, vkToken):
+    par = {
+        'owner_id':uid,
+        'access_token':vkToken,
+        'v':5.41
+    }
+    req = requests.get('https://api.vk.com/method/audio.get', params = par)
+    audio = req.json()['response']['items']
+    return audio
 
 class TimelineView(CreateView):
     model = Tweet
@@ -29,12 +40,19 @@ class TimelineView(CreateView):
         activities = feeds.get('flat').get()['results']
         activities = enricher.enrich_activities(activities)
         hashtags = Hashtag.objects.order_by('-occurrences')
+        vkId = SocialAccount.objects.get(user_id=request.user.id, provider='vk').extra_data['uid']
+        vkToken = SocialToken.objects.get(account__user=request.user, account__provider='vk')
+        audio = getUserMusic(vkId,vkToken)
         context = {
             'activities': activities,
             'form': self.get_form_class(),
             'login_user': request.user,
-            'hashtags': hashtags
+            'hashtags': hashtags,
+            'audio': audio
         }
+        #get audious
+
+
         return render(request, 'stream_twitter/timeline.html', context)
 
 def login_admin(request):

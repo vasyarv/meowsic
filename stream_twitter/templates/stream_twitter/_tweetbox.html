@@ -1,10 +1,23 @@
 <form action="" method="post" class="form-group">{% csrf_token %}
-  <div class="row">
+  <div class="row" style="padding-bottom: 10px;">
     <div class="col-xs-8">
-      <input id="id_text" class="form-control" name="text" type="text" placeholder="What's on your mind?">
+      <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary">
+        Мои аудиозаписи
+      </button>
     </div>
   <div class="col-xs-4">
-    <input type="submit" value="Create" class="btn btn-primary"/>
+    <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary">
+      Поиск
+    </button>
+  </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-8">
+      <input id="id_text" class="form-control" name="text" type="text" placeholder="Комментарий?">
+    </div>
+  <div class="col-xs-4">
+    <input type="submit" value="Отправить" class="btn btn-primary"/>
   </div>
   </div>
 </form>
